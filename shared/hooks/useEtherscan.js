@@ -2,34 +2,63 @@ import { useState, useEffect } from 'react';
 
 import { buildEtherscanApiUrl } from 'shared/helpers';
 
-const useEtherscan = (ethAddress, action) => {
-  const [result, setTransactions] = useState(null);
+const useEtherscan = (ethAddress, type) => {
+  const [walletBalance, setWalletBalance] = useState(null);
+  const [tokenTransactions, setTokenTransactions] = useState(null);
+  const [internalTransactions, setIntenalTransactions] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const getEthTransactions = async () => {
+  const getWalletBalance = async () => {
     try {
-      setIsLoading(true);
       const response = await fetch(
-        buildEtherscanApiUrl(ethAddress, action)
+        buildEtherscanApiUrl(ethAddress, 'balance')
       );
 
       const json = await response.json();
-
-      setTransactions(json.result);
-      setIsLoading(false);
+      setWalletBalance(json.result);
     } catch (error) {
-      setIsLoading(false);
+      console.log(error);
     }
   }
 
-  useEffect( () => {
-    if (!result) {
-      // Todo: Update transactions every x seconds
-      getEthTransactions();
+  const getInternalEthTransactions = async () => {
+    try {
+      const response = await fetch(
+        buildEtherscanApiUrl(ethAddress, 'txlistinternal')
+      );
+
+      const json = await response.json();
+      setIntenalTransactions(json.result);
+    } catch (error) {
+      console.log(error);
     }
+  }
+
+  const getTokenTransactions = async () => {
+    try {
+      const response = await fetch(
+        buildEtherscanApiUrl(ethAddress, 'tokentx')
+      );
+
+      const json = await response.json();
+      setTokenTransactions(json.result);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect( async () => {
+      setIsLoading(true);
+
+      // Todo: Update details every x seconds
+      await getWalletBalance();
+      await getInternalEthTransactions();
+      await getTokenTransactions();
+
+      setIsLoading(false);
   }, [ethAddress]);
 
-  return {result, isLoading};
+  return { walletBalance, internalTransactions, tokenTransactions, isLoading };
 }
 
 
