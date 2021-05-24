@@ -28,8 +28,8 @@ const Header = () => {
           </div>
         )}
         {isAuthenticated && (
-          <div>
-            {primaryEthAddress}
+          <div className={styles.walletBalance}>
+            Wallet Balance <span>{primaryEthAddress} ETH</span>
             <Button onClick={() => logout()}>Logout</Button>
           </div>
         )}

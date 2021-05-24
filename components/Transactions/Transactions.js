@@ -12,17 +12,13 @@ const Transactions = ({ children }) => {
 
   const primaryEthAddress = useMemo(() => isAuthenticated && (user.get('accounts')[0]), [isAuthenticated, user]);
 
-  const { internalTransactions, tokenTransactions, isLoading } = useEtherscan(primaryEthAddress || null, 'balance');
+  const { normalTransactions, isLoading } = useEtherscan(primaryEthAddress || null, 'balance');
 
   return (
     <div className={styles.container}>
-      <h2>Internal transactions (Last 10)</h2>
-      {!!internalTransactions.length ?
-        internalTransactions.map(transaction => <TransactionRow key={transaction.hash} transaction={transaction} />) : <div>No Transactions to be displayed</div>}
-
-      <h2>ERC-20 transactions (Last 10)</h2>
-      {!!tokenTransactions.length ?
-        tokenTransactions.map(transaction => <TransactionRow key={transaction.hash} transaction={transaction} />) : <div>No Transactions to be displayed</div>}
+      <h2>Transactions (Last 10)</h2>
+      {!!normalTransactions.length ?
+        normalTransactions.map(transaction => <TransactionRow key={transaction.hash} transaction={transaction} />) : <div>No Transactions to be displayed</div>}
     </div>
   );
 }

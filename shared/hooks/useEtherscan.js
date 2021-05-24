@@ -2,10 +2,11 @@ import { useState, useEffect } from 'react';
 
 import { buildEtherscanApiUrl } from 'shared/helpers';
 
-const useEtherscan = (ethAddress, type) => {
+const useEtherscan = (ethAddress) => {
   const [walletBalance, setWalletBalance] = useState(null);
-  const [tokenTransactions, setTokenTransactions] = useState(null);
-  const [internalTransactions, setIntenalTransactions] = useState(null);
+  const [tokenTransactions, setTokenTransactions] = useState([]);
+  const [internalTransactions, setIntenalTransactions] = useState([]);
+  const [normalTransactions, setNormalTransactions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const getWalletBalance = async () => {
@@ -21,6 +22,19 @@ const useEtherscan = (ethAddress, type) => {
     }
   }
 
+  const getNormalTransactions = async () => {
+    try {
+      const response = await fetch(
+        buildEtherscanApiUrl(ethAddress, 'txlistinternal')
+      );
+
+      const json = await response.json();
+      !!json.result.length && setNormalTransactions(json.result);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   const getInternalEthTransactions = async () => {
     try {
       const response = await fetch(
@@ -28,7 +42,7 @@ const useEtherscan = (ethAddress, type) => {
       );
 
       const json = await response.json();
-      setIntenalTransactions(json.result);
+      !!json.result.length && setIntenalTransactions(json.result);
     } catch (error) {
       console.log(error);
     }
@@ -41,7 +55,7 @@ const useEtherscan = (ethAddress, type) => {
       );
 
       const json = await response.json();
-      setTokenTransactions(json.result);
+      !!json.result.length && setTokenTransactions(json.result);
     } catch (error) {
       console.log(error);
     }
@@ -53,18 +67,22 @@ const useEtherscan = (ethAddress, type) => {
 
         // Todo: Update details every x seconds
         await getWalletBalance();
-        await getInternalEthTransactions();
-        await getTokenTransactions();
+        await getNormalTransactions();
+
+        // Commented due to Etherscan limits
+        // await getInternalEthTransactions();
+        // await getTokenTransactions();
 
         setIsLoading(false);
       } else {
         setWalletBalance(null);
-        setIntenalTransactions(null);
-        setTokenTransactions(null);
+        setIntenalTransactions([]);
+        setTokenTransactions([]);
+        setNormalTransactions([]);
       }
   }, [ethAddress]);
 
-  return { walletBalance, internalTransactions, tokenTransactions, isLoading };
+  return { walletBalance, normalTransactions, internalTransactions, tokenTransactions, isLoading };
 }
 
 
