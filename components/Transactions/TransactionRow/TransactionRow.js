@@ -3,14 +3,10 @@ import PropTypes from 'prop-types';
 
 import styles from './TransactionRow.module.scss';
 
-const TransactionRow = ({ children }) => <div className={styles.container}>{children}</div>;
-
-TransactionRow.defaultProps = {
-  children: null,
-};
+const TransactionRow = ({ transaction }) => <div className={styles.container}>{transaction.hash}</div>;
 
 TransactionRow.propTypes = {
-  children: PropTypes.node,
+  transaction: PropTypes.array.isRequired,
 };
 
 export default TransactionRow;
