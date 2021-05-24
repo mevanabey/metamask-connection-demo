@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { MoralisProvider } from 'react-moralis';
 
 import { MORALIS_APP_ID, MORALIS_SERVER_URL } from 'shared/constants';
-import { Header, Footer, MetaMask } from 'components';
+import { Header, Footer } from 'components';
 
 const Home = () => (
     <MoralisProvider appId={MORALIS_APP_ID} serverUrl={MORALIS_SERVER_URL}>
@@ -13,9 +13,9 @@ const Home = () => (
           <link rel="icon" href="/favicon.ico" />
         </Head>
 
+
+        <Header />
         <main>
-          <Header />
-          <MetaMask />
         </main>
 
         <Footer>
