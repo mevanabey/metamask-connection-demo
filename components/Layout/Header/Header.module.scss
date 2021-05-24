@@ -1,9 +1,12 @@
 .container {
-  height: 100px;
-  width: 100%;
+  border-bottom: 1px solid #cecece;
   padding: 16px;
 
+  height: 100px;
+  width: 100%;
+
   display: flex;
+  align-items: center;
   justify-content: space-between;
 }
 
