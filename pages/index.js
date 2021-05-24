@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { MoralisProvider } from 'react-moralis';
 
 import { MORALIS_APP_ID, MORALIS_SERVER_URL } from 'shared/constants';
-import { Header, Footer } from 'components';
+import { Header, Footer, Transactions } from 'components';
 
 const Home = () => (
     <MoralisProvider appId={MORALIS_APP_ID} serverUrl={MORALIS_SERVER_URL}>
@@ -16,6 +16,7 @@ const Home = () => (
 
         <Header />
         <main>
+          <Transactions />
         </main>
 
         <Footer>
