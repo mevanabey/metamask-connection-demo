@@ -18,7 +18,7 @@ const Transactions = ({ children }) => {
     <div className={styles.container}>
       <h2>Transactions (Last 10)</h2>
       {!!normalTransactions.length ?
-        normalTransactions.map(transaction => <TransactionRow key={transaction.hash} transaction={transaction} />) : <div>No Transactions to be displayed</div>}
+        normalTransactions.map(transaction => <TransactionRow key={transaction.hash} transaction={transaction} />) : isLoading ? '' : <div>No Transactions to be displayed</div>}
     </div>
   );
 }

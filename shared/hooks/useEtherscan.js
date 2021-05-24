@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import { buildEtherscanApiUrl } from 'shared/helpers';
+import { buildEtherscanApiUrl, prepareTransactions } from 'shared/helpers';
 
 const useEtherscan = (ethAddress) => {
   const [walletBalance, setWalletBalance] = useState(null);
@@ -29,7 +29,7 @@ const useEtherscan = (ethAddress) => {
       );
 
       const json = await response.json();
-      !!json.result.length && setNormalTransactions(json.result);
+      !!json.result.length && setNormalTransactions(prepareTransactions(json.result));
     } catch (error) {
       console.log(error);
     }
@@ -42,7 +42,7 @@ const useEtherscan = (ethAddress) => {
       );
 
       const json = await response.json();
-      !!json.result.length && setIntenalTransactions(json.result);
+      !!json.result.length && setIntenalTransactions(prepareTransactions(json.result));
     } catch (error) {
       console.log(error);
     }
@@ -55,7 +55,7 @@ const useEtherscan = (ethAddress) => {
       );
 
       const json = await response.json();
-      !!json.result.length && setTokenTransactions(json.result);
+      !!json.result.length && setTokenTransactions(prepareTransactions(json.result));
     } catch (error) {
       console.log(error);
     }
