@@ -47,15 +47,21 @@ const useEtherscan = (ethAddress, type) => {
     }
   }
 
-  useEffect( async () => {
-      setIsLoading(true);
+  useEffect(async () => {
+      if(!!ethAddress) {
+        setIsLoading(true);
 
-      // Todo: Update details every x seconds
-      await getWalletBalance();
-      await getInternalEthTransactions();
-      await getTokenTransactions();
+        // Todo: Update details every x seconds
+        await getWalletBalance();
+        await getInternalEthTransactions();
+        await getTokenTransactions();
 
-      setIsLoading(false);
+        setIsLoading(false);
+      } else {
+        setWalletBalance(null);
+        setIntenalTransactions(null);
+        setTokenTransactions(null);
+      }
   }, [ethAddress]);
 
   return { walletBalance, internalTransactions, tokenTransactions, isLoading };
