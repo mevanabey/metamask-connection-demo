@@ -1,8 +1,32 @@
 .container {
-  height: 50px;
+  height: 100px;
   width: 100%;
   padding: 16px;
 
   display: flex;
   justify-content: space-between;
+}
+
+.walletBalance {
+  font-size: 12px;
+  text-transform: uppercase;
+  text-align: center;
+
+  span {
+    font-size: 18px;
+    font-weight: 600;
+
+    display: block;
+  }
+}
+
+.walletDetails {
+  text-align: right;
+
+  span {
+    font-size: 18px;
+    font-weight: 600;
+
+    display: block;
+  }
 }

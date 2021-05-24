@@ -14,23 +14,23 @@ const Header = () => {
 
   const { walletBalance, isLoading } = useEtherscan(primaryEthAddress || null, 'balance');
 
-  const convertedWalletBalance = !isLoading && walletBalance ? convertWeiToEth(walletBalance) : 'Please connect to MetaMask to view balance';
+  const convertedWalletBalance = walletBalance && (convertWeiToEth(walletBalance));
 
   return (
     <header className={styles.container}>
-      <div>
-        {convertedWalletBalance}
+      <div className={styles.walletBalance}>
+        { walletBalance ? <>Wallet Balance <span>{convertedWalletBalance} ETH</span></> : 'Please connect to MetaMask to view balance'}
       </div>
       <div>
         {!isAuthenticated && (
           <div>
-            <Button onClick={() => authenticate()}>Authenticate</Button>
+            <Button onClick={() => authenticate()}>Connect To Metamask</Button>
           </div>
         )}
         {isAuthenticated && (
-          <div className={styles.walletBalance}>
-            Wallet Balance <span>{primaryEthAddress} ETH</span>
-            <Button onClick={() => logout()}>Logout</Button>
+          <div className={styles.walletDetails}>
+            <span>{primaryEthAddress}</span>
+            <Button onClick={() => logout()}>Disconnect</Button>
           </div>
         )}
       </div>
